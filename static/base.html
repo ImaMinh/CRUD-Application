@@ -1,0 +1,91 @@
+<!-- Base HTML page for CRUD application -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> My Website </title>
+</head>
+<body>
+    
+    <div id="input-form">
+        <h2>Upload a File</h2>
+        <form enctype="multipart/form-data">
+            <input type='file' name="file"/> <br/><br/>
+            <button type="submit">Upload</button>
+        </form> 
+    </div>
+
+    <br/> <br/>
+
+    <h2>Wait for Data to Return and Upload our Document</h2>   
+    <!-- Invoice Form -->
+    <table id="invoice-result">
+        <tr>
+            <th>invoice number </th>
+            <th>invoice date</th>
+            <th>vendor name</th>
+            <th>vendor address</th>
+            <th>bill to</th>
+            <th>bill to address</th>
+            <th>currency</th>
+            <th>subtotal</th>
+            <th>tax</th>
+            <th>total</th>
+            <th>payment terms</th>
+            <th>due date</th>
+        </tr>
+
+        <tbody>
+            <form id="myForm">
+                <tr id="non-line-items">
+                    <td><input type="text" name="invoice_number" style="width: 100%;"></td>
+                    <td><input type="text" name="invoice_date" style="width: 100%;"></td>
+                    <td><input type="text" name="vendor_name" style="width: 100%;"></td>
+                    <td><input type="text" name="vendor_address" style="width: 100%;"></td>
+                    <td><input type="text" name="bill_to_name" style="width: 100%;"></td>
+                    <td><input type="text" name="bill_to_address" style="width: 100%;"></td>
+                    <td><input type="text" name="currency" style="width: 100%;"></td>
+                    <td><input type="text" name="subtotal" style="width: 100%;"></td>
+                    <td><input type="text" name="tax" style="width: 100%;"></td>
+                    <td><input type="text" name="total" style="width: 100%;"></td>
+                    <td><input type="text" name="payment_terms" style="width: 100%;"></td>
+                    <td><input type="text" name="due_date" style="width: 100%;"></td>
+                </tr>
+            <button type="submit">Upload Data</button> 
+            </form>
+        </tbody>
+    </table>
+    
+    <br/> <br/>
+
+
+
+
+    <!-- Invoice Data -->
+    <h2>View your Data</h2>
+    <table id="invoice-data-table">
+        <thead>
+            <tr>
+                <th>invoice number </th>
+                <th>invoice date</th>
+                <th>vendor name</th>
+                <th>vendor address</th>
+                <th>bill to</th>
+                <th>bill to address</th>
+                <th>currency</th>
+                <th>subtotal</th>
+                <th>tax</th>
+                <th>total</th>
+                <th>payment terms</th>
+                <th>due date</th>
+            </tr>
+        </thead>
+        <tbody id="invoice-data">
+        </tbody>
+     </table>
+
+    <script src="./main.js"></script>
+</body>
+</html> 
