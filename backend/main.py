@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from scanner import analyze_invoice
 from models import Invoice
-from mongodb import insert_invoice, get_data, update_invoice
+from mongodb import insert_invoice, get_data, update_invoice, delete_invoice
 
 app = FastAPI()
 
@@ -74,4 +74,12 @@ async def update_mongo_data(invoice_id: str, new_invoice: Invoice):
         return result
     except Exception as e:
         print(e)
-
+        
+@app.delete("/delete_data/{invoice_id}")
+async def delete_mongo_data(invoice_id: str):
+    try: 
+        result = delete_invoice(invoice_id)
+        
+        return result
+    except Exception as e:
+        print(e)

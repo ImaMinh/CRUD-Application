@@ -4,6 +4,12 @@
 // handler for uploading form data
 const uploadForm = document.querySelector("#invoice-result #myForm");
 
+// if(uploadForm == null){
+//     console.log("upload form null");
+// } else {
+//     console.log("uploadForm found")
+// }
+
 uploadForm.addEventListener("submit", (event)=>{
     event.preventDefault();
     console.log("upload button working");
