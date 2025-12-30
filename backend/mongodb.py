@@ -63,4 +63,19 @@ def update_invoice(id, new_invoice_data):
     except Exception as e:
         print("exception occured in update_invoice(): \n", e)
         
+    
+def delete_invoice(id):
+    try: 
+        obj_id = ObjectId(id)
         
+        result = collection.delete_one({"_id": obj_id})
+        
+        if result.acknowledged and result.deleted_count == 1:
+            return {"status": "success", "message": "Invoice deleted successfully"}  
+        else:
+            raise HTTPException(status_code=404, detail=f"Invoice with ID {id} not found")
+    except Exception as e: 
+        print(f"Error in delete_invoice: {e}")
+        if isinstance(e, HTTPException):
+            raise e
+        raise HTTPException(status_code=500, detail=str(e)) 

@@ -62,6 +62,7 @@ uploadImage.addEventListener('submit', (event) => {
         .catch(error => console.error(error));
 })
 
+// ## Fill in Upload form Datafields ##
 function renderInvoiceForm(data){  
     const myForm = document.querySelector("#invoice-result #myForm")
 
@@ -76,7 +77,7 @@ function renderInvoiceForm(data){
     }
 }
 
-// ###### Fetching and Displaying Invoices ######:
+// ###### Fetching and Displaying Invoices #######
 fetch(`http://127.0.0.1:8000/mongo_data/`, {
     method: 'GET',
     headers: {"Content-Type": "application/json"}
@@ -153,8 +154,16 @@ invoice_list.addEventListener("click", function(event) {
         console.log("invoice-id = ", invoice_id)
 
         update_form_handler(invoice_div, invoice_id)
-    } else if (event.target.className = "delete-btn"){
-        // handler for delete event
+    } else if (event.target.className === "delete-btn"){
+        if(confirm("You sure deleting this item")){
+            // get id of the invoice
+            const invoice_id = (event.target).getAttribute('data-id')
+
+            // handler for delete event
+            delete_form_handler(invoice_id)
+        } else {
+            txt = "you pressed cancelled"
+        }
     }
 })
 
@@ -164,8 +173,6 @@ function update_form_handler(invoice_div, _id){
     const mongo_id = _id
     
     json_file = extract_invoice_json(invoice_div, mongo_id)
-
-    // console.log("type jsonfile: ", typeof json_file)
 
     fetch(`http://127.0.0.1:8000/update_data/${mongo_id}`, {
         method: "PUT",
@@ -212,4 +219,16 @@ function extract_invoice_json(invoice_div, _id){
         "payment_terms": `${fields.payment_terms}` ?? "N/A",
         "due_date": `${fields.due_date}` ?? "N/A"
     };
+}
+
+// ### Delete Data Function ###
+function delete_form_handler(_id){
+    fetch(`http://127.0.0.1:8000/delete_data/${_id}`, {
+        method: "DELETE"
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+        })
+        .catch(e => console.log(e))
 }

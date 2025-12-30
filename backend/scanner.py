@@ -1,10 +1,11 @@
 from google import genai
 from google.genai import types
+from creds import gemini_api
 import json
 
 
 # ----- Needs fixing this, no explicit key -------
-client = genai.Client(api_key="AIzaSyDOepWVtBc4pNwIGoY-qnN4XogG01Ok7Po")
+client = genai.Client(api_key=gemini_api)
 
 
 # Prompt # 
