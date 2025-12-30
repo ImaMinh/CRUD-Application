@@ -1,0 +1,17 @@
+.invoice-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: .5rem;
+    margin-bottom: 1rem;
+}
+
+.invoice-card-action{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.invoice-card-action{
+    margin-bottom: 1rem;
+}
