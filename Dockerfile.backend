@@ -1,0 +1,29 @@
+# 1. Set the base image -- chatgpt picked for us
+FROM continuumio/miniconda3
+
+# 2. copy the env file into container machine's requirements 
+# source: path to folder on machine / dest: path on container's file system
+# Note: must include a '/' at the end of requirements so Docker creates a new workdir if folder doesn't exists
+COPY environment.yml ./requirements/
+
+# 3. install the project dependencies 
+RUN conda env create -f ./requirements/environment.yml
+
+# 4. Create backend code folder
+RUN mkdir ./docker_backend/
+
+# 5. Copy our backend code into the machine's backend folder
+COPY ./backend ./docker_backend
+
+# 6. Set working directory so Docker knows where to run our code:
+WORKDIR /docker_backend/
+
+# 6. Expose the Container (VM) Port to the host machine's local host port
+EXPOSE 8000
+
+# 7. Start the server
+# Note: Docker only allows one CMD, if we have 2 then Docker will run the last one and ignore the first one
+# Note: 
+CMD ["conda", "run", \
+ "-n", "crud_app", "uvicorn", "main:app", \
+ "--host", "0.0.0.0", "--port", "8000", "--reload"]

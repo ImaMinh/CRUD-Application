@@ -15,7 +15,9 @@ app = FastAPI()
 
 # allowed origins for CORS
 origins = [
-    "http://127.0.0.1:5500"
+    "http://127.0.0.1:5500",
+    "http://localhost:8080",   # new Docker frontend port
+    "http://127.0.0.1:8080"  
 ]
 
 #### adding CORS validation to routes ####
