@@ -39,13 +39,15 @@ uploadForm.addEventListener("submit", (event)=>{
 
 // ######### Upload Image Handler #########
 const uploadImage = document.querySelector("#input-form form");
+const uploadButton = document.getElementById("upload-btn");
+const buttonText = uploadButton.querySelector(".btn-text");
 
 uploadImage.addEventListener('submit', (event) => {
     event.preventDefault(); // preventing the page from refreshing
     
     const formData = new FormData(event.target)
 
-    console.log("image form data: ", formData); 
+    setLoading(true);
 
     fetch("http://127.0.0.1:8000/upload/image", {
         method: 'POST',
@@ -59,8 +61,18 @@ uploadImage.addEventListener('submit', (event) => {
                 renderInvoiceForm(result.data) // get the data from the return result
             }
         })
-        .catch(error => console.error(error));
+        .catch(error => console.error(error))
+        .finally(()=> {
+            setLoading(false);
+        })
 })
+
+// CHAT GPT CODE for displaying spinner
+function setLoading(loading){
+    uploadButton.disabled = loading;
+    uploadButton.classList.toggle("loading", loading); // add a class loading to upload-button if loading == true, else don't add, if class exists then toggle removes it, if it doesn't exists then add it
+    buttonText.textContent = loading ? "Processing..." : "Upload";
+}
 
 // ## Fill in Upload form Datafields ##
 function renderInvoiceForm(data){  
@@ -167,6 +179,7 @@ invoice_list.addEventListener("click", function(event) {
     }
 })
 
+// ### Update Data Function ###
 function update_form_handler(invoice_div, _id){
     // update JSON File and Update the Invoice 
 

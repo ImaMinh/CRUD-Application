@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+COPY ./static /usr/share/nginx/html
+
+EXPOSE 80 
+
+# switch our html file from base.html --> index.html so default nginx can find this file
+
+# nginx declare this on default so we don't actually have to write this
+# CMD ["nginx", "-g", "daemon off;"]
