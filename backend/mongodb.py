@@ -1,25 +1,31 @@
+import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from fastapi import HTTPException
 import json
 from bson import json_util, ObjectId #bson is Mongodb object or something, read mongodb fastAPI integration doc to understand this
+from creds import MONGO_ATLAS_PASSWORD
 
+# Search for the env value named MONGO_URI
+uri = os.getenv("MONGO_URI")
 
-uri = "mongodb+srv://minhhanduc:13148897minh@crud-app.k2lqhn4.mongodb.net/?appName=CRUD-APP"
+if(not uri):
+    uri = f"mongodb+srv://minhhanduc:{MONGO_ATLAS_PASSWORD}@crud-app.k2lqhn4.mongodb.net/?appName=CRUD-APP"
 
 users = MongoClient(uri,server_api=ServerApi('1')) # Same CLI command 
+
+# Code to check connectivity to remote cluster
+try:
+    users.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print("Connection to Mongo error: ", e)
+
+
 db = users.get_database("crud-app")
 # get the collection
 # collection type = <class 'pymongo.synchronous.collection.Collection'>
 collection = db.invoices 
-
-# # Code to check connectivity to remote cluster
-# try:
-#     users.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-# except Exception as e:
-#     print(e)
-
 
 # #### Inserting Invoice ####
 def insert_invoice(data):
