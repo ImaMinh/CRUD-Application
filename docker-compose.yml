@@ -5,9 +5,16 @@ services:
       dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
+    # This value is saved inside the container's OS as an Environment Variable
+    # If we run echo $MONGO_URI$ it will print our atlas linnk
     environment:
-      - MONGO_URI="mongodb+srv://minhhanduc:13148897minh@crud-app.k2lqhn4.mongodb.net/?appName=CRUD-APP"
-
+      - PYTHONUNBUFFERED=1
+      - MONGO_URI=mongodb+srv://minhhanduc:${MONGO_ATLAS_PASSWORD}@crud-app.k2lqhn4.mongodb.net/?appName=CRUD-APP
+    env_file:
+      # for the env file Docker Compose looks at our computer (host) to find this file
+      # the expected file must also be in the standard .env format
+      # - ./docker_backend/creds.py (This won't work)
+      - .env
   frontend:
     build:
       context: .
