@@ -1,0 +1,44 @@
+.navbar-brand a {
+  text-decoration: none !important;
+}
+
+.navbar-toggler.collapsed {
+  transition: transform 0.5s ease 0s;
+  transform: rotate(0deg);
+
+  border: none;
+}
+
+.navbar-toggler:not(.collapsed) {
+  transform: rotate(-90deg);
+  transition: transform 0.5s ease 0s;
+
+  border: none;
+}
+
+.fieldset-upload-table {
+  font-weight: 600;
+}
+
+.line-input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  background-color: transparent;
+  width: 100%;
+  padding: 5px 0;
+  outline: none;
+}
+
+
+label.form-label{
+    margin: 0px;
+}
+
+input.form-control{
+  border: 1px solid #a9acae!important;
+}
+
+fieldset{
+  border: 1px solid #8e9194!important;
+}

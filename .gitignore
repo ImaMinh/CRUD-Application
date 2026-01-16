@@ -1,2 +1,3 @@
 backend/creds.py
 backend/__pycache__/
+.env

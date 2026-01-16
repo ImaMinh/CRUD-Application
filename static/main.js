@@ -77,7 +77,7 @@ function setLoading(loading){
 // ## Fill in Upload form Datafields ##
 function renderInvoiceForm(data){  
     const myForm = document.querySelector("#invoice-result #myForm")
-
+    
     for (const key in data) {
         if (key !== "line_items") {
             if(data[key].value != null){
@@ -103,43 +103,49 @@ fetch(`http://127.0.0.1:8000/mongo_data/`, {
 function renderInvoiceList(data){
     invoice_lists = document.querySelector("#table-of-invoices")
 
-    for(let invoice of data){
+    if(data){
+            for(let invoice of data){
 
-        const invoice_mongo_id = invoice._id
+            const invoice_mongo_id = invoice._id
 
-        console.log(invoice_mongo_id)
+            console.log(invoice_mongo_id)
 
-        const card = `
-            <div class="invoice-card">
-                <div class="card-data-field">
-                    <h2>Invoice: ${invoice.invoice_number}</h2>    
-                    <div class="card-invoice-content">
-                        <p contenteditable="true"><strong>Invoice Number:</strong> <span data-field="invoice_number">${invoice.invoice_number}</span> </p>
-                        <p contenteditable="true"><strong>Date:</strong> <span data-field="invoice_date">${invoice.invoice_date}</span> </p>
+            const card = `
+                <div class="invoice-card">
+                    <div class="card-data-field">
+                        <h2>Invoice: ${invoice.invoice_number}</h2>    
+                        <div class="card-invoice-content">
+                            <p contenteditable="true"><strong>Invoice Number:</strong> <span data-field="invoice_number">${invoice.invoice_number}</span> </p>
+                            <p contenteditable="true"><strong>Date:</strong> <span data-field="invoice_date">${invoice.invoice_date}</span> </p>
 
-                        <p contenteditable="true"><strong>Vendor:</strong> <span data-field="vendor_name">${invoice.vendor_name}</span> </p>
-                        <p contenteditable="true"><strong>Vendor Address:</strong> <span data-field="vendor_address">${invoice.vendor_address}</span> </p>
+                            <p contenteditable="true"><strong>Vendor:</strong> <span data-field="vendor_name">${invoice.vendor_name}</span> </p>
+                            <p contenteditable="true"><strong>Vendor Address:</strong> <span data-field="vendor_address">${invoice.vendor_address}</span> </p>
 
-                        <p contenteditable="true"><strong>Bill To:</strong> <span data-field="bill_to_name">${invoice.bill_to_name}</span> </p>
-                        <p contenteditable="true"><strong>Bill To Address:</strong> <span data-field="bill_to_address">${invoice.bill_to_address}</span> </p>
+                            <p contenteditable="true"><strong>Bill To:</strong> <span data-field="bill_to_name">${invoice.bill_to_name}</span> </p>
+                            <p contenteditable="true"><strong>Bill To Address:</strong> <span data-field="bill_to_address">${invoice.bill_to_address}</span> </p>
 
-                        <p contenteditable="true"><strong>Subtotal:</strong> <span data-field="subtotal">${invoice.subtotal} </span></p>
-                        <p contenteditable="true"><strong>Tax:</strong> <span data-field="tax">${invoice.tax}</span> </p>
-                        <p contenteditable="true"><strong>Total:</strong> <span data-field="total">${invoice.total}</span> </p>
+                            <p contenteditable="true"><strong>Subtotal:</strong> <span data-field="subtotal">${invoice.subtotal} </span></p>
+                            <p contenteditable="true"><strong>Tax:</strong> <span data-field="tax">${invoice.tax}</span> </p>
+                            <p contenteditable="true"><strong>Total:</strong> <span data-field="total">${invoice.total}</span> </p>
 
-                        <p contenteditable="true"><strong>Currency:</strong> <span data-field="currency">${invoice.currency}</span> </p>
-                        <p contenteditable="true"><strong>Payment Terms:</strong> <span data-field="payment_terms">${invoice.payment_terms}</span> </p>
-                        <p contenteditable="true"><strong>Due Date:</strong> <span data-field="due_date">${invoice.due_date}</span> </p>
+                            <p contenteditable="true"><strong>Currency:</strong> <span data-field="currency">${invoice.currency}</span> </p>
+                            <p contenteditable="true"><strong>Payment Terms:</strong> <span data-field="payment_terms">${invoice.payment_terms}</span> </p>
+                            <p contenteditable="true"><strong>Due Date:</strong> <span data-field="due_date">${invoice.due_date}</span> </p>
+                        </div>
+                    </div>
+                    <div class="invoice-card-action">
+                        <button data-id="${invoice_mongo_id.$oid}" type="update-content" class="update-btn" style="width: 30%; margin-bottom: .5rem;">Update</button>
+                        <button data-id="${invoice_mongo_id.$oid}" type="delete-content" class="delete-btn" style="width: 30%">Delete</button>
                     </div>
                 </div>
-                <div class="invoice-card-action">
-                    <button data-id="${invoice_mongo_id.$oid}" type="update-content" class="update-btn" style="width: 30%; margin-bottom: .5rem;">Update</button>
-                    <button data-id="${invoice_mongo_id.$oid}" type="delete-content" class="delete-btn" style="width: 30%">Delete</button>
-                </div>
-            </div>
-        `
+            `
 
-        invoice_lists.innerHTML += card;
+            invoice_lists.innerHTML += card;
+        }
+    } else {
+        const errorDiv = `
+            
+        `
     }
 }
 

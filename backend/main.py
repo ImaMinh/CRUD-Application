@@ -29,13 +29,21 @@ app.add_middleware(
     allow_headers=["*"],            # Allows all headers
 )
 
-# Posting data to scanner.py
+# ================================================ POST Requests ================================================ #
+
+
 @app.post("/upload/image")
 async def create_upload_file(file: UploadFile):
+    """ 
+        Handler function for upload form's image upload
+    """
     print(f"File received: {file.filename}")
     image_bytes = await file.read() 
     scanning_result = analyze_invoice(image_bytes, str(file.content_type))
-    return {"status": scanning_result["status"], "data": scanning_result["json_data"]}
+    return {
+        "status": scanning_result["status"], 
+        "data": scanning_result["json_data"]
+    }
     
 # API for uploading data to MongoDB
 @app.post("/upload/json_form_data/")
