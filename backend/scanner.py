@@ -1,10 +1,9 @@
 from google import genai
 from google.genai import types
-from creds import gemini_api
+from backend.creds import gemini_api
 import json
 
 
-# ----- Needs fixing this, no explicit key -------
 client = genai.Client(api_key=gemini_api)
 
 
@@ -54,8 +53,8 @@ def analyze_invoice(image_bytes, mime_type: str):
         model='gemini-2.5-flash',
         contents=[
             types.Part.from_bytes(
-                data=image_bytes,
-                mime_type=mime_type,
+                data = image_bytes,
+                mime_type = mime_type,
             ),
             INVOICE_EXTRACTION_PROMPT
         ]
