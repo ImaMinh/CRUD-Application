@@ -5,225 +5,58 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="test.css">
         <title>Component Test Site </title>
     </head>
     <body>
-        <!-- ####### Upload Table ###### -->
-        <!-- START OF TABLE-->
-        <section id="upload-table">
+        <!-- ### a.upload form ### -->
+                <div class="col-12 col-md-5 p-0 justify-content-center bg-light">
 
-            <!-- upload table title -->
-            <div class="container-lg p-0">
-                <div class="bg-dark py-2 text-light text-center fs-3">
-                    <span>Upload Table</span>
-                    <i class="bi bi-file-earmark-text"></i>
-                </div>
-            </div>
-
-            <!-- upload table main form content -->
-            <form class="container-lg bg-light bg-gradient" id="upload-table-form">
-                <div class="px-0 px-lg-4">
-
-                    <!-- a. reset button section-->
-                    <div class="row justify-content-end p-2">
-                        <!-- discard (reset) button -->
-                        <button type="button" class="btn btn-outline-dark rounded-3 p-1 w-25 me-1 bg-white" onclick="discardInvoice()">
-                            Discard 
-                        </button>
+                    <!-- upload form title -->
+                    <div class="d-flex justify-content-center bg-dark text-light p-2">
+                        <span class="fs-3 me-2">Upload Your Invoice</span>
+                        <i class="bi bi-upload fs-3"></i>
                     </div>
 
-                    <!-- b. header information -->
-                    <div class="row gx-2 gy-1">
-                        <div class="col-12 col-lg-6">
-                            <!-- vendor details section -->
-                            <fieldset class="rounded-3 p-3 bg-white">
-                                <legend class="float-none w-auto px-3 fs-5 fw-semibold">Vendor Details</legend>
-                                
-                                <label for="vendor-name" class="form-label">Vendor Name:</label>
-                                <input type="text" id="vendor-name" name="vendor_name" class="form-control form-control-sm" placeholder="e.g John Smith"/>
+                    <!-- upload form input section -->
+                    <form id="upload-invoice-form" class="p-3 pb-lg-0 border">
+                        
+                    <!-- main input field -->
 
-                                <label for="vendor-address" class="form-label">Vendor Address:</label>
-                                <input type="text" id="vendor-address" name="vendor_address" class="form-control form-control-sm" placeholder="e.g. 123 Main Street, Anytown, USA 12345"/>
-                            </fieldset>
-                            
-                            <!-- recepient details section -->
-                            <fieldset class="rounded-3 p-3 bg-white">
-                                <legend class="float-none w-auto px-3 fs-5 fw-semibold">Bill To</legend>
-
-                                <label for="bill-to-name" class="form-label">Bill To Name:</label>
-                                <input type="text" id="bill-to-name" name="bill_to_name" class="form-control form-control-sm" placeholder="e.g John Smith"/>
-
-                                <label for="bill-to-address" class="form-label">Bill To Address:</label>
-                                <input type="text" id="bill-to-address" name="bill_to_address" class="form-control form-control-sm" placeholder="e.g. 123 Main Street, Anytown, USA 12345"/>
-                            </fieldset>
+                        <!-- file input section-->
+                        <div class="input-group">
+                            <input id="upload-invoice-form-input" type="file" name="file" accept="image/png, image/jpeg, image/svg+xml, application/pdf" required class="form-control form-control-sm" >
+                            <button class="btn btn-sm btn-light border" type="reset">
+                                <i class="bi bi-x-circle"></i>
+                                <span>Clear</span>
+                            </button>
                         </div>
                         
-                        <div class="col-12 col-lg-6">
-                            <!-- invoice details section -->
-                            <fieldset class="rounded-3 p-3 h-100 bg-white d-flex flex-column justify-content-between">
-                                <legend class="float-none w-auto px-3 fs-5 fw-semibold">Invoice Details</legend>
-                                
-                                <label for="invoice-number" class="form-label">Invoice Number:</label>
-                                <input type="text" id="invoice-number" name="invoice_number" class="form-control form-control-sm" placeholder="e.g INV-2023-001"/>
 
-                                <label for="invoice-date" class="form-label">Invoice Date:</label>
-                                <input type="date" id="invoice-date" name="invoice_date" class="form-control form-control-sm" placeholder="e.g John Smith"/>
-
-                                <label for="due-date" class="form-label">Due Date:</label>
-                                <input type="date" id="due-date" name="due_date" class="form-control form-control-sm" placeholder="e.g John Smith"/>
-
-                                <label for="payment-terms" class="form-label">Payment Terms:</label>
-                                <input type="text" id="payment-terms" name="payment_terms" class="form-control form-control-sm" placeholder="payment terms ..."/>
-                            </fieldset>    
+                        <!-- drag and drop field (for future dev)-->
+                        <div class="d-flex flex-column justify-content-center text-center border border-3 rounded-4 p-3 mt-3 bg-white" style="border-style: dashed!important">
+                            <label for="formFile" style="cursor: pointer">
+                                <i class="bi bi-cloud-upload fs-1 fw-bold"></i>
+                                <div class="fs-3">Upload Your Image</div>
+                                <div class="text-muted">Or Drag And Drop It Here</div>
+                                <p class="lead fw-bold mt-2" style="font-size: 0.6em">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                    Supported formats: JPEG, PNG, PDF, SVG
+                                </p>
+                            </label>
                         </div>
-                    </div>
 
-                    <!-- small line break -->
-                    <hr>
-
-                    <!-- c. line items -->
-                    <div class="row px-3">
-                        <fieldset class="rounded-3 bg-white">
-                            <legend class="float-none w-auto px-3 fw-semibold fs-5">Line Items</legend>
-
-                            <!-- line items form table -->
-                            <table id="upload-table-line-items-table" class="table table-bordered">
-                                
-                                <!-- line items form table's title-->
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Description</th>
-                                        <th>Qty</th>
-                                        <th>Unit Price</th>
-                                        <th>Amount</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-
-                                <!-- line items form table's main body for adding line items-->
-                                <tbody id="upload-tabel-line-items-table-body">
-                                    <tr>
-                                        <!-- item's index (row number) -->
-                                        <th scope="row">1</th>
-                                        
-                                        <!-- line item description -->
-                                        <td>
-                                            <input type="text" name="description" class="line-input" placeholder="Description: e.g Curry, 280g">
-                                        </td>
-                                        
-                                        <!-- line item quantity -->
-                                        <td>
-                                            <input type="number" name="quantity" class="line-input" placeholder="0">
-                                        </td>
-                                        
-                                        <!-- line item unit price -->
-                                        <td>
-                                            <input type="number" name="unit_price" class="line-input" placeholder="0.00">
-                                        </td>
-
-                                        <!-- line item amount -->
-                                        <td>
-                                            <input type="number" name="amount" class="line-input" placeholder="0.00">
-                                        </td>
-
-                                        <!-- remove row button -->
-                                        <td class="text-center align-middle">
-                                            <button class="btn btn-sm btn-light rounded-3 border" onclick="removeLineItem(event)">
-                                                <i class="bi bi-x-circle"></i>    
-                                            </button>
-                                        </td>
-                                    </tr>           
-                                </tbody>
-
-                                <!-- line item's table footer (button for adding new items) -->
-                                <tfoot>
-                                    <td colspan="6" class="p-0 w-100 text-center bg-light"> <!-- note! td display is table cell -> text-center for alignment -->
-                                        <button type="button" class="btn text-center" onclick="addLineItem()">
-                                            <span>Add New Item</span>
-                                            <i class="bi bi-plus-circle"></i> 
-                                        </button>
-                                    </td>
-                                </tfoot>
-                            </table>
-                        </fieldset>    
-                    </div>
-
-                    <!-- small line break -->
-                    <hr>
-                    
-                    <!-- d. totals section -->
-                    <div class="row justify-content-end">
-                        <div class="col-12">
-                            <fieldset class="rounded-3 p-3 bg-white">
-                                <legend class="float-none w-auto px-3 fw-semibold fs-5">Totals</legend>
-
-                                <label for="currency" class="form-label">Currency:</label>
-                                <input type="text" id="currency" name="currency" class="form-control form-control-sm" placeholder="e.g Dollars"/>
-                                
-                                <label for="subtotal" class="form-label">Subtotal:</label>
-                                <input type="number" id="subtotal" name="subtotal" class="form-control form-control-sm" placeholder="0.00"/>
-                                
-                                <label for="tax" class="form-label">Tax:</label>
-                                <input type="number" id="tax" name="tax" class="form-control form-control-sm" placeholder="0.00"/>
-
-                                <label for="grand-total" class="form-label">Grand Total:</label>
-                                <input readonly type="number" id="grand-total" name="total" class="form-control form-control-sm" placeholder="0.00"/>
-                            </fieldset>
+                        <!-- submit file button -->
+                        <div>
+                            <button id="upload-image-form-button" type="submit" class="btn btn-dark w-100 my-2">Upload & Extract</button> 
                         </div>
-                    </div>
+                    </form>
                 </div>
-                    <!-- actions section -->
-                    <div class="row mt-4">
-                        <!-- submit button -->
-                        <button id="upload-table-form-submit-button" type="submit" form="upload-table-form" class="btn btn-dark rounded-0 fs-5">
-                            <span>Submit</span>
-                            <i class="bi bi-upload"></i>
-                        </button>
-                    </div>
-                <!-- END OF UPLOAD TABLE -->
-            </form> 
-        </section>
-
-
-        <!-- ###### Document Fragment Templates For Reuse ###### -->
-        <template id="line-item-table-row-template">
-            <tr>
-                <th scope="row"></th>
-
-                <td>
-                    <input type="text" name="description" class="line-input" placeholder="Description">
-                </td>
-
-
-                <td>
-                    <input type="text" name="quantity" class="line-input" placeholder="0">
-                </td>
-
-
-                <td>
-                    <input type="text" name="unit_price" class="line-input" placeholder="0.00">
-                </td>
-
-
-                <td>
-                    <input type="text" name="amount" class="line-input" placeholder="0.00">
-                </td>
-
-
-                <td class="text-center align-middle">
-                    <button type="button" class="btn btn-sm btn-light rounded-3 border" onclick="removeLineItem(event)">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
-                </td>
-
-            </tr> 
-        </template>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        
+        <!----- script tags ----->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <script src="./test.js"></script>
     </body>
 </html>     

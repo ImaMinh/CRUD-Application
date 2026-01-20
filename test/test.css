@@ -42,3 +42,11 @@ input.form-control{
 fieldset{
   border: 1px solid #8e9194!important;
 }
+
+.progress{
+  height: 12px;
+}
+
+.extraction-field-confidence{
+  justify-content: center!important;
+}

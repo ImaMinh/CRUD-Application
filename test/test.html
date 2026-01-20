@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="test.css">
     <title> Test Site </title>
@@ -16,8 +16,7 @@
 
     <!-- ##### 1. Nav Bar ###### -->
     <nav class="navbar bg-dark navbar-dark">
-        <div class="container-sm">
-
+        <div class="container-lg">
             <!-- title and logo -->
                 <span class="d-flex align-content-center navbar-brand">
                     <a class="fs-2 fw-normal me-2 text-light text-align-center">Invoice Extractor</a>
@@ -60,10 +59,12 @@
     <!-- ### Start of Upload Form and Dashboard ### -->
     <section id="upload-form-and-extraction-dashboard">
         <div class="container-lg">
-            <div class="row justify-content-center  ">
+            <div class="row justify-content-center">
+
+                
 
                 <!-- ### a.upload form ### -->
-                <div class="col-12 col-md-6 col-lg-5 p-0 justify-content-center bg-light">
+                <div class="d-flex flex-column col-12 col-md-5 p-0 bg-light" style="height: 45vh;">
 
                     <!-- upload form title -->
                     <div class="d-flex justify-content-center bg-dark text-light p-2">
@@ -72,45 +73,220 @@
                     </div>
 
                     <!-- upload form input section -->
-                    <form id="upload-invoice-form" class="p-3 pb-lg-0 border">
-                        
-                    <!-- main input field -->
+                    <form id="upload-invoice-form" class="border p-3 d-flex flex-column gap-2" style="flex: 1;">
+                        <!-- main input field -->
 
-                        <!-- file input section-->
-                        <div class="input-group">
-                            <input id="upload-invoice-form-input" type="file" name="file" accept="image/png, image/jpeg, image/svg+xml, application/pdf" required class="form-control form-control-sm" >
-                            <button class="btn btn-sm btn-light border" type="reset">
-                                <i class="bi bi-x-circle"></i>
-                                <span>Clear</span>
-                            </button>
-                        </div>
-                        
 
-                        <!-- drag and drop field (for future dev)-->
-                        <div class="d-flex flex-column justify-content-center text-center border border-3 rounded-4 p-3 mt-3 bg-white" style="border-style: dashed!important">
-                            <label for="formFile" style="cursor: pointer">
-                                <i class="bi bi-cloud-upload fs-1 fw-bold"></i>
-                                <div class="fs-3">Upload Your Image</div>
-                                <div class="text-muted">Or Drag And Drop It Here</div>
-                                <p class="lead fw-bold mt-2" style="font-size: 0.6em">
-                                    <i class="bi bi-file-earmark-text"></i>
-                                    Supported formats: JPEG, PNG, PDF, SVG
-                                </p>
-                            </label>
-                        </div>
+                            <!-- file input section-->
+                            <div class="input-group my-2">
+                                <input id="upload-invoice-form-input" type="file" name="file" accept="image/png, image/jpeg, image/svg+xml, application/pdf" required class="form-control form-control-sm" >
+                                <button class="btn btn-sm btn-light border" type="reset">
+                                    <i class="bi bi-x-circle"></i>
+                                    <span>Clear</span>
+                                </button>
+                            </div>
+                            
 
-                        <!-- submit file button -->
-                        <div>
-                            <button id="upload-image-form-button" type="submit" class="btn btn-dark w-100 my-2">Upload & Extract</button> 
-                        </div>
+                            <!-- drag and drop field (for future dev)-->
+                            <div class="d-flex flex-column justify-content-center text-center border border-3 rounded-4 p-3 bg-white" style="border-style: dashed!important; height: 70%;">
+                                <label for="formFile" style="cursor: pointer">
+                                    <i class="bi bi-cloud-upload fs-1 fw-bold"></i>
+                                    <div class="fs-3">Upload Your Image</div>
+                                    <div class="text-muted">Or Drag And Drop It Here</div>
+                                    <p class="lead fw-bold mt-2" style="font-size: 0.6em">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                        Supported formats: JPEG, PNG, PDF, SVG
+                                    </p>
+                                </label>
+                            </div>
+
+                            <!-- submit file button -->
+                            <div>
+                                <button id="upload-image-form-button" type="submit" class="btn btn-dark w-100 my-2">Upload & Extract</button> 
+                            </div>
+                        <!-- end of main input field-->
                     </form>
                 </div>
 
 
                 <!-- ### b.extraction-dashboard(define metrics and develop style for dashboard) ### -->
-                <div class="col-12 col-md-6 col-lg-7 bg-light">
-                    <div class="text-center align-content-center text-dark h-100">
-                        Dashboard
+                <div class="col-12 col-md-7 p-0"  style="height: 45vh;">
+                    <div class="d-flex flex-column h-100">
+                        <!-- dashboard title-->
+                        <div class="row bg-dark text-light align-items-center justify-content-center m-0">
+                            <div class="col d-flex justify-content-center py-2">
+                                <span class="fs-3 me-2">Extraction Dashboard</span>
+                                <i class="bi bi-upload fs-3"></i>
+                            </div>
+                        </div>
+
+                        <!-- legend section -->
+                        <div class="row col-12 bg-light m-0">
+                            <div class="row">
+                                <div class="col-3 text-muted p-0 ps-4" style="font-size: 14px;">
+                                    <span>confidence</span>
+                                </div>
+                                <div class="col-9 d-flex justify-content-between p-0" style="font-size: 13px;">
+                                    <span class="small fw-bold">0.0</span>
+                                    <span class="small fw-bold">0.25</span>
+                                    <span class="small fw-bold">0.50</span>
+                                    <span class="small fw-bold">0.75</span>
+                                    <span class="small fw-bold">1.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- dashboard main-body -->
+                        <div id="dashboard-table-body" class="row overflow-y-scroll flex-grow-1 m-0">
+                            <!-- metrics area -->
+                            <div class="col-12">
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">invoice_number</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">invoice_date</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">vendor_name</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">vendor_address</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">bill_to_name</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">bill_to_address</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">currency</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">subtotal</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">tax</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">total</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">payment_terms</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">due_date</span>
+                                    </div>
+                                    <div class="extraction-field-confidence col-9 p-0">
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%"> 0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-1">
+                                    <div class="extraction-field-key col-3 p-0 ps-4" style="font-size: 14px;">
+                                        <span class="fw-bold">line_items</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- dashboard footer-->
+                        <div class="row border-top border-light m-0">
+                            <small class="text-muted bg-light">
+                                response time: <span class="fw-bold">0.00s</span>  
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -344,7 +520,7 @@
         </tr> 
     </template>     
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="test.js"></script>
 </body>
 </html>     

@@ -79,12 +79,13 @@ def extract_invoice(img_bytes: bytes, mime_type: str):
             }
         )
         
-        if(response.text):
-            print('response.text: ', response.text)
-            
-            return {"status": "success", "data": response.text}
+        # if success and response != null, return response
+        if(response.text):    
+            # print('Gemini API extraction returns: ', response.text)
+            return response.text
         else:
             return None
+    
     except Exception as error: 
         print(f'An error: {{{error}}} occurect in ocr scanner')
         return error
