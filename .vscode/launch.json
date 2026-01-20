@@ -8,14 +8,13 @@
       "name": "Python Debugger: FastAPI",
       "type": "debugpy",
       "request": "launch",
-      "module": "uvicorn",
+      "module": "fastapi",
       "python": "/home/minh-han/miniconda3/envs/crud_app/bin/python", // <--- Add this
-      "cwd": "${workspaceFolder}/backend",
+      "cwd": "${workspaceFolder}/test",
       "args": [
-          "main:app", 
-          "--reload",
-          "--host", "127.0.0.1",
-          "--port", "5000"
+          "dev", 
+          "--port", "4000",
+          "test.py"
       ] 
     },
     {
