@@ -6,6 +6,147 @@ const ports = {
 }
 const isDebug = false
 
+let dummyData = `{
+    "invoice_number": {
+        "value": "20B05227",
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "invoice_date": {
+        "value": "2020-02-20",
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "vendor_name": {
+        "value": "Anatpath",
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "vendor_address": {
+        "value": "120 Gardenvale Road Gardenvale Vic 3186",
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "bill_to_name": {
+        "value": null,
+        "confidence": 0.0,
+        "warning_flags": [
+            "missing_value"
+        ]
+    },
+    "bill_to_address": {
+        "value": null,
+        "confidence": 0.0,
+        "warning_flags": [
+            "missing_value"
+        ]
+    },
+    "currency": {
+        "value": "AUD",
+        "confidence": 0.9,
+        "warning_flags": []
+    },
+    "subtotal": {
+        "value": 230.0,
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "tax": {
+        "value": 0.0,
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "total": {
+        "value": 230.0,
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "payment_terms": {
+        "value": "If this Account is Paid Within 21 Days from the Date of Invoice a Discount of $50.00 Will Apply.",
+        "confidence": 1.0,
+        "warning_flags": []
+    },
+    "due_date": {
+        "value": null,
+        "confidence": 0.0,
+        "warning_flags": [
+            "missing_value"
+        ]
+    },
+    "line_items": [
+        {
+            "description": {
+                "value": null,
+                "confidence": 0.0,
+                "warning_flags": [
+                    "missing_value"
+                ]
+            },
+            "quantity": {
+                "value": 1,
+                "confidence": 0.8,
+                "warning_flags": []
+            },
+            "unit_price": {
+                "value": 160.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            },
+            "amount": {
+                "value": 160.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            }
+        },
+        {
+            "description": {
+                "value": null,
+                "confidence": 0.0,
+                "warning_flags": [
+                    "missing_value"
+                ]
+            },
+            "quantity": {
+                "value": 1,
+                "confidence": 0.8,
+                "warning_flags": []
+            },
+            "unit_price": {
+                "value": 20.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            },
+            "amount": {
+                "value": 20.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            }
+        },
+        {
+            "description": {
+                "value": "Prompt Payment Saving",
+                "confidence": 1.0,
+                "warning_flags": []
+            },
+            "quantity": {
+                "value": 1,
+                "confidence": 0.8,
+                "warning_flags": []
+            },
+            "unit_price": {
+                "value": 50.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            },
+            "amount": {
+                "value": 50.0,
+                "confidence": 1.0,
+                "warning_flags": []
+            }
+        }
+    ]
+}`
+
 
 // --- Invoice Form Element --- // 
 const Invoice_Form = document.getElementById('upload-invoice-form')
@@ -153,13 +294,14 @@ function parseExtractedData(extracted_data){
 
 /* ============== rendering extraction dashboard handler ============== */
 function renderExtractionDashboard(extractionData, responseTime){
-    // Get the dashboard body container
+    
+    // --- get the dashboard body container ---
     const dashboardBody = document.getElementById('dashboard-table-body')
     
-    // Clear existing content
-    dashboardBody.innerHTML = '';
+    // --- clear existing content ---
+    dashboardBody.innerHTML = ''
     
-    // Define the fields to display (in order)
+    // --- define the fields to display (in order) ---
     const fields = [
         'invoice_number',
         'invoice_date',
@@ -176,103 +318,112 @@ function renderExtractionDashboard(extractionData, responseTime){
         'line_items'
     ];
     
-    // Loop through each field and create the row
+    // --- loop through each field and create the row ---
     fields.forEach(fieldName => {
         if (extractionData.hasOwnProperty(fieldName)) {
-            const fieldData = extractionData[fieldName];
-            const confidence = fieldData.confidence || 0;
-            const confidencePercent = Math.round(confidence * 100);
             
-            // Create the row element
-            const rowDiv = document.createElement('div');
-            rowDiv.className = 'row align-items-center mb-1';
+            const fieldData = extractionData[fieldName]
+            let confidence = fieldData.confidence || 0
+            let confidencePercent = Math.round(confidence * 100)
+
+            if(confidencePercent == 0){
+                confidencePercent = 10
+            }
             
-            // Create the field key column
-            const keyDiv = document.createElement('div');
-            keyDiv.className = 'extraction-field-key col-3 p-0 ps-4';
-            keyDiv.style.fontSize = '14px';
-            keyDiv.innerHTML = `<span class="fw-bold">${fieldName}</span>`;
+            // --- 1. create the row element --- //
+            const rowDiv = document.createElement('div')
+            rowDiv.className = 'row align-items-center mb-1'
             
-            // Create the confidence column
-            const confidenceDiv = document.createElement('div');
-            confidenceDiv.className = 'extraction-field-confidence col-9 p-0';
+            // --- a. create new field column --- //
+            const keyDiv = document.createElement('div')
+            keyDiv.className = 'extraction-field-key col-3 p-0 ps-4'
+            keyDiv.style.fontSize = '13px'
+            keyDiv.innerHTML = `<span class="fw-bold">${fieldName}</span>`
             
-            // Determine progress bar color based on confidence
-            let progressBarClass = 'progress-bar';
+            // --- b. create the confidence column --- //
+            const confidenceDiv = document.createElement('div')
+            confidenceDiv.className = 'extraction-field-confidence col-9 p-0'
+            
+            // --- c. add progress bar to confidence-column based on confidence --- //
+            let progressBarClass = 'progress-bar'
             if (confidencePercent >= 90) {
-                progressBarClass += ' bg-success';
+                progressBarClass += ' bg-success'
             } else if (confidencePercent >= 70) {
-                progressBarClass += ' bg-info';
+                progressBarClass += ' bg-info'
             } else if (confidencePercent >= 50) {
-                progressBarClass += ' bg-warning';
+                progressBarClass += ' bg-warning'
             } else {
-                progressBarClass += ' bg-danger';
+                progressBarClass += ' bg-danger text-dark'
             }
             
             confidenceDiv.innerHTML = `
                 <div class="progress">
                     <div class="${progressBarClass}" style="width: ${confidencePercent}%"> ${confidencePercent}%</div>
                 </div>
-            `;
+            `
             
-            // Append to row
-            rowDiv.appendChild(keyDiv);
-            rowDiv.appendChild(confidenceDiv);
+            // --- append to row --- //
+            rowDiv.appendChild(keyDiv)
+            rowDiv.appendChild(confidenceDiv)
             
-            // Append row to dashboard body
-            dashboardBody.appendChild(rowDiv);
+            // --- append row to dashboard body --- //
+            dashboardBody.appendChild(rowDiv)
         }
     });
 
-    // Handle line_items separately - render each item as its own row
+    // --- handle line_items separately - render each item as its own row ---
     if (extractionData.hasOwnProperty('line_items') && Array.isArray(extractionData.line_items)) {
         extractionData.line_items.forEach((lineItem, index) => {
-            const itemNumber = index + 1;
-            const fields = ['description', 'quantity', 'unit_price', 'amount'];
+            const itemNumber = index + 1
+            const fields = ['description', 'quantity', 'unit_price', 'amount']
             
-            fields.forEach(field => {
+            fields.forEach((field, idx) => {
                 if (lineItem[field]) {
-                    const confidence = lineItem[field].confidence || 0;
-                    const confidencePercent = Math.round(confidence * 100);
+                    let confidence = lineItem[field].confidence || 0
+                    let confidencePercent = Math.round(confidence * 100)
+
+                    if(confidencePercent == 0){
+                        confidencePercent = 10
+                    }
                     
-                    // Create the row element
-                    const rowDiv = document.createElement('div');
-                    rowDiv.className = 'row align-items-center mb-1';
+                    // --- create the row element --- 
+                    const rowDiv = document.createElement('div')
+                    rowDiv.className = 'row align-items-center mb-1'
                     
-                    // Create the field key column
-                    const keyDiv = document.createElement('div');
-                    keyDiv.className = 'extraction-field-key col-3 p-0 ps-4';
+                    // --- create the field key column ---
+                    const keyDiv = document.createElement('div')
+                    keyDiv.className = 'extraction-field-key col-3 p-0 ps-4'
                     keyDiv.style.fontSize = '14px';
-                    keyDiv.innerHTML = `<span class="fw-bold">${field}_${itemNumber}</span>`;
+                    keyDiv.innerHTML = `<span class="fw-bold">${field}_${itemNumber}</span>`
                     
-                    // Create the confidence column
-                    const confidenceDiv = document.createElement('div');
-                    confidenceDiv.className = 'extraction-field-confidence col-9 p-0';
+                    // --- create the confidence column ---
+                    const confidenceDiv = document.createElement('div')
+                    confidenceDiv.className = 'extraction-field-confidence col-9 p-0'
                     
-                    // Determine progress bar color based on confidence
-                    let progressBarClass = 'progress-bar';
+                    // --- determine progress bar color based on confidence --- 
+                    let progressBarClass = 'progress-bar'
                     if (confidencePercent >= 90) {
-                        progressBarClass += ' bg-success';
+                        progressBarClass += ' bg-success'
                     } else if (confidencePercent >= 70) {
                         progressBarClass += ' bg-info';
                     } else if (confidencePercent >= 50) {
-                        progressBarClass += ' bg-warning';
+                        progressBarClass += ' bg-warning'
                     } else {
-                        progressBarClass += ' bg-danger';
+                        progressBarClass += ' bg-danger text-dark'
                     }
                     
                     confidenceDiv.innerHTML = `
                         <div class="progress">
                             <div class="${progressBarClass}" style="width: ${confidencePercent}%"> ${confidencePercent}%</div>
                         </div>
-                    `;
+                    `
                     
-                    // Append to row
+                    // -- append to row element -- //
                     rowDiv.appendChild(keyDiv);
-                    rowDiv.appendChild(confidenceDiv);
+                    rowDiv.appendChild(confidenceDiv)
                     
-                    // Append row to dashboard body
-                    dashboardBody.appendChild(rowDiv);
+                    // --- append row to dashboard body --- //
+                    dashboardBody.appendChild(rowDiv)
                 }
             });
         });
@@ -289,148 +440,6 @@ function renderExtractionDashboard(extractionData, responseTime){
 async function formUploadImageHandler(event){ /* call-back func, understand how to do async await later */
     if (isDebug) {
         event.preventDefault()
-        
-        // debug code here
-        let dummyData = `{
-            "invoice_number": {
-                "value": "20B05227",
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "invoice_date": {
-                "value": "2020-02-20",
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "vendor_name": {
-                "value": "Anatpath",
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "vendor_address": {
-                "value": "120 Gardenvale Road Gardenvale Vic 3186",
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "bill_to_name": {
-                "value": null,
-                "confidence": 0.0,
-                "warning_flags": [
-                    "missing_value"
-                ]
-            },
-            "bill_to_address": {
-                "value": null,
-                "confidence": 0.0,
-                "warning_flags": [
-                    "missing_value"
-                ]
-            },
-            "currency": {
-                "value": "AUD",
-                "confidence": 0.9,
-                "warning_flags": []
-            },
-            "subtotal": {
-                "value": 230.0,
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "tax": {
-                "value": 0.0,
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "total": {
-                "value": 230.0,
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "payment_terms": {
-                "value": "If this Account is Paid Within 21 Days from the Date of Invoice a Discount of $50.00 Will Apply.",
-                "confidence": 1.0,
-                "warning_flags": []
-            },
-            "due_date": {
-                "value": null,
-                "confidence": 0.0,
-                "warning_flags": [
-                    "missing_value"
-                ]
-            },
-            "line_items": [
-                {
-                    "description": {
-                        "value": null,
-                        "confidence": 0.0,
-                        "warning_flags": [
-                            "missing_value"
-                        ]
-                    },
-                    "quantity": {
-                        "value": 1,
-                        "confidence": 0.8,
-                        "warning_flags": []
-                    },
-                    "unit_price": {
-                        "value": 160.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    },
-                    "amount": {
-                        "value": 160.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    }
-                },
-                {
-                    "description": {
-                        "value": null,
-                        "confidence": 0.0,
-                        "warning_flags": [
-                            "missing_value"
-                        ]
-                    },
-                    "quantity": {
-                        "value": 1,
-                        "confidence": 0.8,
-                        "warning_flags": []
-                    },
-                    "unit_price": {
-                        "value": 20.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    },
-                    "amount": {
-                        "value": 20.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    }
-                },
-                {
-                    "description": {
-                        "value": "Prompt Payment Saving",
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    },
-                    "quantity": {
-                        "value": 1,
-                        "confidence": 0.8,
-                        "warning_flags": []
-                    },
-                    "unit_price": {
-                        "value": 50.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    },
-                    "amount": {
-                        "value": 50.0,
-                        "confidence": 1.0,
-                        "warning_flags": []
-                    }
-                }
-            ]
-        }`
 
         console.log('1.', typeof(dummyData))
 
@@ -438,7 +447,7 @@ async function formUploadImageHandler(event){ /* call-back func, understand how 
 
         console.log('2.', typeof(dummyData))
         
-        // parseExtractedData(dummyData);
+        parseExtractedData(dummyData);
         renderExtractionDashboard(dummyData, '30.3s')
         
         return;
@@ -500,49 +509,40 @@ async function formUploadImageHandler(event){ /* call-back func, understand how 
         const url = `http://127.0.0.1:${port}/invoices/scanner`
 
         try{
-            const response = await fetch(url, initObject) // await automatically opens the response from the promise
+            const response = await fetch(url, initObject) // -- await unwraps the promise like .then(), returns the response.body(...) which is a promise
 
-            // End timing after receiving response
-            const endTime = performance.now()
-            const responseTime = (endTime - startTime) / 1000 // Convert milliseconds to seconds
-
-            // this part is SO BUNS 
             if(response.ok){
-                (response.json()).then( // accessing the json data within the promise. Clarify this later
-                    (promise_content) => { // understand js wrapper for functions here
-                        console.log(typeof(promise_content))
-                        
-                        // parse the returned content into corresponding upload-table fields, display the corresponding warning-flags (if exists) for each field
-                        
-                        // // -- check if content is a string or json object -- //
-                        // if(typeof(promise_content) == String){
-                        //     try{
-                        //         let promise_content = JSON.stringify(promise_content).replace(/(?:\\[rn])+/g, '')
-                                
-                        //         promise_content = JSON.parse(promise_content)
-                        //     } catch (error) {
-                        //         console.log('content is not JSON parsable')
-                        //     }
-                        // }
+                let content = await response.json() // -- uses response.json(), an async function, and uses await to unwrap the json content of the promise the json() method returns
 
-                        if(typeof promise_content === "string"){
-                            promise_content = JSON.parse(promise_content);
-                        }
-                        
-                        parseExtractedData(promise_content)
-                        renderExtractionDashboard(promise_content, responseTime)
-                    }
-                )
+                // -- make sure the content is a JSON obj so the program doesn't break
+                if(typeof(content) == 'string'){
+                    content = JSON.parse(content)
+                }
+
+                parseExtractedData(content)
+                renderExtractionDashboard(content, 0.00) /* TODO: calculate the response time here */
             }
 
         } catch(error) {
-            console.log(error)
+            console.error("Upload failed:", error)
         }
 
     } catch(error) {
-        console.log(error)
+        console.error("Upload failed:", error)
     }
 }
+
+/* =============================== Upload Form and DashBoard Even Handler <End> ===============================  */
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -601,20 +601,46 @@ function discardInvoice() {
 // --- 1. get the form data from the upload table form --- // 
 const uploadTableForm = document.getElementById('upload-table-form')
 
-uploadTableForm.addEventListener('submit', function(event) {
+uploadTableForm.addEventListener('submit', async function(event) {
     event.preventDefault()
 
     const formData = new FormData(uploadTableForm)
 
-    serializeFormData(formData)
+    const uploadData = serializeFormData(formData)
 
-    // !!!!!!!!!! ##########  IMPORTANT: create an reload page handle here ############ !!!!!!!!!!!
-                
-                // IMPORTANT FUNCTION TO ADD
+    // reloadAfterSubmitHandler()
     
     if(confirm('you sure you want to submit')){ 
-        // serializeFormData(formData)
-        //location.reload()
+        
+        // -- set running port: for debug_port: 4000, for main_port: 8000 --
+        const port = ports['main_port']
+        const url = `http://127.0.0.1:${port}/uploaded/invoices`
+
+        const initObject = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: uploadData
+        }
+
+        try {
+            const response = await fetch(url, initObject)
+            
+            if(response.ok){
+                console.log('Upload data successful')
+            } else {
+                const errorData = await response.json()
+                console.error('Server Validation Error:', errorData)
+                alert(`Upload Failed: ${JSON.stringify(errorData)}`)
+            }
+
+        } catch (error){
+            console.log("Upload data failed: ", error)
+        }
+       
+    } else {
+        // discard invoice and reload the page
     }
 })
 
@@ -622,7 +648,7 @@ uploadTableForm.addEventListener('submit', function(event) {
 function serializeFormData(formData){
 
     // --- a. create the base data structure --- //
-    const invoice_structure = {
+    let invoice_structure = {
         'invoice_number': formData.get('invoice_number'),
         'invoice_date': formData.get('invoice_date'),
         'vendor_name': formData.get('vendor_name'),
@@ -630,9 +656,9 @@ function serializeFormData(formData){
         'bill_to_name': formData.get('bill_to_name'),
         'bill_to_address': formData.get('bill_to_address'),
         'currency': formData.get('currency'),
-        'subtotal': formData.get('subtotal'),
-        'tax': formData.get('tax'),
-        'total': formData.get('total'),
+        'subtotal': Number(formData.get('subtotal')) || 0,
+        'tax': Number(formData.get('tax')) || 0,
+        'total': Number(formData.get('total')) || 0,
         'payment_terms': formData.get('payment_terms'),
         'due_date': formData.get('due_date'),
         'line_items': []
@@ -654,27 +680,21 @@ function serializeFormData(formData){
         for(let i = 0; i < descriptions.length; i++){
             description = replaceEmptyStringsWithNull(null, descriptions[i])
             quantity = replaceEmptyStringsWithNull(null, quantities[i])
-            unit_price = replaceEmptyStringsWithNull(null, unit_prices[i])
+            unit_price = replaceEmptyStringsWithNull(null, unit_prices[i])  
             amount = replaceEmptyStringsWithNull(null, amounts[i])
 
             item = {
                 'description': description,
-                'quantity': quantity,
-                'unit_price': unit_price,
-                'amount': amount
+                'quantity': Number(quantity) || 0,
+                'unit_price': Number(unit_price) || 0,
+                'amount': Number(amount) || 0
             }
 
             
             // --- before appending to the list of items, check if the item is empty (all data fields are null) or not --- //
             if(filterLineItem(item) == true){
                 items.push(item)
-            } else {
-                // !!!!!!!!!! ##########  IMPORTANT: create an alert handle here ############ !!!!!!!!!!!
-                
-                // IMPORTANT FUNCTION TO ADD
-                
-                // alert('One of your line-item is empty, remove it before you submit')
-            }
+            } 
         }
 
         return items
@@ -699,7 +719,79 @@ function serializeFormData(formData){
         return value
     }
 
-    console.log(JSON.stringify(invoice_structure, replaceEmptyStringsWithNull, 2))
+    try{
+        // convert the structure into a valid JSON schema
+        invoice_structure = JSON.stringify(invoice_structure, replaceEmptyStringsWithNull)
+        return invoice_structure
+
+    } catch(error){
+        console.log('serializeFormData, cannot parse invoice as JSON: ', error)
+    }
+    
 }
 
-/* =============================== Upload Table Even Handler <END> ===============================*/
+
+/* =============================== Upload Table Even Handler <END> =============================== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =============================== Display Data Cards <START> =============================== */
+function renderUploadedDataCards(invoices){
+    if(invoices == null || invoices.length == 0){
+        return
+    }
+
+    for(invoice of invoices){
+        console.log("invoice: ", invoice)
+    }
+}
+
+
+async function getUploadedInvoices(){
+    try {
+        
+        const initObject = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+
+        const port = ports['main_port']
+        const url = `http://127.0.0.1:${port}/uploaded/invoices`
+
+        let response = await fetch(url, initObject)
+
+        if(response.ok){
+            response = await response.json()
+
+            console.log(response)
+
+            // render the data cards
+            renderUploadedDataCards(response)
+        } else {
+            alert('Unable to get uploaded data from server!')
+        }
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
+getUploadedInvoices()
+
+// TODO: refactor the main js file later
+
+

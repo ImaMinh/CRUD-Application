@@ -50,3 +50,50 @@ fieldset{
 .extraction-field-confidence{
   justify-content: center!important;
 }
+
+
+/* ===== data cards styles ===== */
+
+/* Card content font size */
+.card-body {
+    font-size: 14px;
+}
+
+/* Thinner scrollbar for value fields */
+.value-scroll-container {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    scrollbar-width: thin; /* Firefox */
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.value-scroll-container::-webkit-scrollbar {
+    height: 3px; /* Very thin scrollbar */
+}
+
+.value-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.value-scroll-container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/* input field-edit fields */
+input.field-edit{
+  background-color: #ccdbe5!important;
+  padding: 0px!important;
+  padding-left: 3px!important;
+  height: auto!important;
+  line-height: 1.2 !important;
+  font-size:12px !important;
+}
+
+input.field-edit:focus {
+  border-color: #495057 !important;      /* Darker border on focus */
+  outline: none !important;
+  box-shadow: 0 0 0 0.5rem rgba(80, 84, 87, 0.25) !important;
+}

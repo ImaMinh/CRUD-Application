@@ -1,6 +1,6 @@
 from pydantic import BaseModel, model_validator
 from typing import Optional, TypeVar, Generic, List
-from datetime import date
+from datetime import date   
 import math
 
 # ================== Model for extracted invoice response from Gemini ================== # 
@@ -152,7 +152,6 @@ class LineItem(BaseModel):
 
 
 class UserUploadInvoice(BaseModel):
-    id: str
     invoice_number: Optional[str]
     invoice_date: Optional[date]
     vendor_name: Optional[str]
@@ -166,4 +165,16 @@ class UserUploadInvoice(BaseModel):
     payment_terms: Optional[str]
     due_date: Optional[date]
     line_items: List[Optional[LineItem]]
+        
+        
+
     
+
+
+
+
+    
+# ================== Model for Uploaded Invoice Stored in MongoDB ================== #
+
+class UploadedDBInvoice(UserUploadInvoice):
+    id: Optional[str] = None

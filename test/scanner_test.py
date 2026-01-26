@@ -71,7 +71,7 @@ def extract_invoice(img_bytes: bytes, mime_type: str):
         
         # request the response
         response = client.models.generate_content(
-            model='gemini-3-flash-preview',
+            model='gemini-2.5-flash',
             contents=[bits, INVOICE_EXTRACTION_PROMPT],
             config={
                 "response_mime_type": "application/json",
