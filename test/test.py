@@ -45,7 +45,7 @@ async def uploadFormImage(file: UploadFile):
         Receives an invoice and performs OCR analysis to extract data
         """
     try:
-        
+        print(file)
         
         # get the mime-type of the image
         mime_type = str(file.content_type)

@@ -292,7 +292,7 @@ function parseExtractedData(extracted_data){
 }
 
 
-/* ============== rendering extraction dashboard handler ============== */
+/* ============== Handler For Rendering Extraction Dashboard ============== */
 function renderExtractionDashboard(extractionData, responseTime){
     
     // --- get the dashboard body container ---
@@ -437,22 +437,10 @@ function renderExtractionDashboard(extractionData, responseTime){
 }
 
 
+
+
+/* ============== Handler For Upload Invoice Form ============== */
 async function formUploadImageHandler(event){ /* call-back func, understand how to do async await later */
-    if (isDebug) {
-        event.preventDefault()
-
-        console.log('1.', typeof(dummyData))
-
-        dummyData = JSON.parse(dummyData)
-
-        console.log('2.', typeof(dummyData))
-        
-        parseExtractedData(dummyData);
-        renderExtractionDashboard(dummyData, '30.3s')
-        
-        return;
-    }
-
     try{
         event.preventDefault()
 
@@ -478,7 +466,7 @@ async function formUploadImageHandler(event){ /* call-back func, understand how 
         /* 2. Validate the File Type */
         file_type_is_valid = fileTypeValidation(image_file.type)
 
-        // -- if file type is invalid, set a validity report and return to the browser
+        // -- if file type is invalid, set a validity report and return to the browser -- //
         if(!file_type_is_valid){
             // set custom validity here  
             validity_msg = 'Invalid file type! Please upload an image or pdf'
@@ -489,7 +477,7 @@ async function formUploadImageHandler(event){ /* call-back func, understand how 
             return
         }
 
-        // -- if file type is valid, continue the process
+        // -- if file type is valid, continue the process -- //
 
         /* 3. Processing the image (Work on this) */
 
