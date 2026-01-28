@@ -58,7 +58,7 @@ INVOICE_EXTRACTION_PROMPT.strip()
 
 
 # ---- Extraction Function ---- # 
-def extract_invoice(img_bytes: bytes, mime_type: str):
+def extract_invoice(img_bytes: bytes, mime_type: str, extraction_model: str):
     try: 
         # get raw binaries from the img bytes
         bits = types.Part.from_bytes(
@@ -71,7 +71,7 @@ def extract_invoice(img_bytes: bytes, mime_type: str):
         
         # request the response
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=extraction_model,
             contents=[bits, INVOICE_EXTRACTION_PROMPT],
             config={
                 "response_mime_type": "application/json",
@@ -87,6 +87,6 @@ def extract_invoice(img_bytes: bytes, mime_type: str):
             return None
     
     except Exception as error: 
-        print(f'An error: {{{error}}} occurect in ocr scanner')
+        print(f'An error: {{{error}}} occurred in ocr scanner')
         return error
         
