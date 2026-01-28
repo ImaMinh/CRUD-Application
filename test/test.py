@@ -4,7 +4,7 @@
 from test.scanner_test import extract_invoice 
 
 # import FastAPI modules 
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware  
 
 # import Pydantic model:
@@ -16,11 +16,16 @@ from pydantic import ValidationError
 # import MongoDB handler codes:
 from backend.mongodb import insert_invoice, get_data, update_invoice
 
+# import img processing codes:
+from test.services.image_process.runner import process_image
+
 # import json: 
 import json
 
-# import pprint
+# import pprint:
 from pprint import pprint
+
+
 
 
 # --- initiate the application ---
@@ -40,28 +45,25 @@ app.add_middleware(
 
 # === API for upload invoice image to Gemini === #
 @app.post('/invoices/scanner')
-async def uploadFormImage(file: UploadFile):
+async def uploadFormImage(file: UploadFile, extraction_model: str = Form(...)): # FastAPI automatically parses multipart/form-data
     """
         Receives an invoice and performs OCR analysis to extract data
         """
     try:
         print(file)
+        print(extraction_model)
         
         # get the mime-type of the image
         mime_type = str(file.content_type)
         
-        # get the bytes of the image??? /*** clarify this ***/
-        
-        print('file =', file)
-        
-        # pre-process the image here
-        # pre-process image function
-        
         # convert the image into bytes
         img_bytes = await file.read()
         
+        # --- pre-process the image ---
+        img_bytes = process_image(img_bytes)
+        
         # send it to the scanner
-        response = extract_invoice(img_bytes, mime_type) # why can't this be an await function?
+        response = extract_invoice(img_bytes, mime_type, extraction_model) # why can't this be an await function?
 
         # validate the response data
         # --- check for schema completeness, valid json structure, and type formatting (non-strict) --- #
@@ -181,6 +183,6 @@ async def updateUploadedInvoice(updatedData: UploadedDBInvoice, invoice_id: str)
         
         
         
-# Notes: Implement the Dependencies and Credentials later
+# Notes: Implement the Dependencies and Credentials later   
     
     
